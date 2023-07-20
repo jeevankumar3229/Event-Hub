@@ -1,9 +1,14 @@
-﻿using Microsoft.Azure.Devices.Client;
+﻿using Microsoft.Azure.Devices;
+using Microsoft.Azure.Devices.Client;
+using Microsoft.Extensions.Azure;
+using Microsoft.Rest;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +19,9 @@ namespace WindowsApplicationProject
     public partial class DeviceRegistrationForm : Form
     {
         List<Device> devices;
-        private readonly Form form1;
+        private readonly Form1 form1;
 
-        public DeviceRegistrationForm(Form form1)
+        public DeviceRegistrationForm(Form1 form1)
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
@@ -36,34 +41,97 @@ namespace WindowsApplicationProject
             this.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async  void button1_Click(object sender, EventArgs e)
         {
+            textBox1.ReadOnly = true;
+            textBox2.ReadOnly = true;
+            textBox3.ReadOnly = true;
+            textBox4.ReadOnly = true;
             string iothubconstring = textBox1.Text;
-            string iothubname = textBox2.Text;
+            string hostname = textBox2.Text;
             string deviceconstring = textBox3.Text;
             string deviceid = textBox4.Text;
-            if (!(String.IsNullOrWhiteSpace(iothubconstring)) && !(String.IsNullOrWhiteSpace(iothubname)) && !(String.IsNullOrWhiteSpace(deviceconstring)) && !(String.IsNullOrWhiteSpace(deviceid)))
+            if (!(String.IsNullOrWhiteSpace(iothubconstring)) && !(String.IsNullOrWhiteSpace(iothubconstring)) && !(String.IsNullOrWhiteSpace(deviceconstring)) && !(String.IsNullOrWhiteSpace(deviceid)))
             {
-                textBox1.ReadOnly = true;
-                textBox2.ReadOnly = true;
-                textBox3.ReadOnly = true;
-                textBox4.ReadOnly = true;
+                
 
                 Device device = new Device
                 {
                     IotHubConnectionString = iothubconstring,
-                    IotHubName=iothubname,
+                    HostName = hostname,
                     DeviceConnectionString=deviceconstring,
                     DeviceID=deviceid
                 };
+                try
+                {
+                    string filepath = @"C:\Users\286968\OneDrive - Resideo\Desktop\device.json";
+                    RegistryManager registryManager = RegistryManager.CreateFromConnectionString(device.IotHubConnectionString);
+                    var deviceobject = await registryManager.GetDeviceAsync(device.DeviceID);
+                    if (deviceobject != null)
+                    {
+                        DeviceClient deviceClient = DeviceClient.CreateFromConnectionString(device.DeviceConnectionString);
+                        if (device.DeviceConnectionString.Contains(device.DeviceID) && device.DeviceConnectionString.Contains(device.HostName) && device.IotHubConnectionString.Contains(device.HostName))
+                        {
+                            if (File.Exists(filepath))
+                            {
+                                string filedata = File.ReadAllText(filepath);
+                                devices = JsonConvert.DeserializeObject<List<Device>>(filedata);
+                                devices.Add(device);
 
-                string filepath = @"C:\Users\286968\OneDrive - Resideo\Desktop\device.json";
-                DeviceClient deviceclient= DeviceClient
+                            }
+                            else
+                            {
+                                devices = new List<Device> { device };
+
+                            }
+                            string data = JsonConvert.SerializeObject(devices, Formatting.Indented);
+                            File.WriteAllText(filepath, data);
+                            LoggerConfig._LogInformation("Device Successfully Registered");
+                            MessageBox.Show("Device Successfully Registered");
+                            LoggerConfig._LogInformation("Opening form Page");
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid Details");
+                            textBox1.ReadOnly = false;
+                            textBox2.ReadOnly = false;
+                            textBox3.ReadOnly = false;
+                            textBox4.ReadOnly = false;
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid Details");
+                        textBox1.ReadOnly = false;
+                        textBox2.ReadOnly = false;
+                        textBox3.ReadOnly = false;
+                        textBox4.ReadOnly = false;
+                    }
+                    
+                    
+                }
+                catch(Exception)
+                {
+                    MessageBox.Show("Invalid Details");
+                    textBox1.ReadOnly = false;
+                    textBox2.ReadOnly = false;
+                    textBox3.ReadOnly = false;
+                    textBox4.ReadOnly = false;
+                }
+
+              
+                
             }
             else
             {
                 LoggerConfig._LogError("All Fields in Device Registration Form need to be filled", null);
                 MessageBox.Show("Every fields should be filled");
+                textBox1.ReadOnly = false;
+                textBox2.ReadOnly = false;
+                textBox3.ReadOnly = false;
+                textBox4.ReadOnly = false;
 
             }
             

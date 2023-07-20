@@ -1,88 +1,73 @@
-﻿using Azure.Messaging.EventHubs;
-using Azure.Messaging.EventHubs.Producer;
+﻿using Azure.Messaging.EventHubs.Producer;
+using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace WindowsApplicationProject
 {
-    public partial class EventSendingForm : Form
+    public partial class Device2CloudMessageForm : Form
     {
-        
         public int width = 0;
         public int rowcount = 0;
-        public DataGridViewButtonCell buttons;
-        public User user;
-        private readonly RegisteredEventHubUsers registeredEventHubUsers;
-        //private readonly Form1 form1;
+        private readonly RegisteredForms registeredForms;
+        private readonly Device device;
         public int count;
         public int totaltime;
-       
+        DeviceClient deviceclient;
+        Microsoft.Azure.Devices.Client.Message message;
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-        
-
-        string jsoneventdata;
-        
         Thread thread = new Thread(DisplayMessageBox);
-        EventHubProducerClient client;
-        EventDataBatch batch;
-        EventData eventData;
 
         private static void DisplayMessageBox()
         {
-           
-                Thread.Sleep(2000);
-                MessageBox.Show("In One Minute Only 60 Messages can be sent");
-                LoggerConfig._LogInformation("In One Minute Only 60 Messages can be sent");
-                
+            Thread.Sleep(2000);
+            MessageBox.Show("In One Minute Only 60 Messages can be sent");
+            LoggerConfig._LogInformation("In One Minute Only 60 Messages can be sent");
         }
 
-        public EventSendingForm(DataGridViewButtonCell buttons,User user,RegisteredEventHubUsers registeredEventHubUsers)
+        public Device2CloudMessageForm(RegisteredForms registeredForms,Device device)
         {
             InitializeComponent();
+            this.registeredForms = registeredForms;
+            this.device = device;
+            FormClosing += Device2CloudMessageFormClosing;
             this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            this.buttons = buttons;
-            this.user = user;
-            this.registeredEventHubUsers = registeredEventHubUsers;
-            //this.form1 = form1;
-            FormClosing += EventSendingForm_Closing;
             thread.Start();
-            
-
-            
-            
         }
 
-        
-
-        private void EventSendingForm_Closing(object sender, FormClosingEventArgs e)
+        private void Device2CloudMessageFormClosing(object sender, FormClosingEventArgs e)
         {
-            registeredEventHubUsers.Show();
+            registeredForms.Show();
+        }
+
+        private void Device2CloudMessageForm_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (width < 450)
+            if (width < 430)
             {
 
                 AddKeyValueTextField();
             }
             else
             {
-                LoggerConfig._LogError("Maximum no of additional fields to be added is reached",null);
+                LoggerConfig._LogError("Maximum no of additional fields to be added is reached", null);
                 MessageBox.Show("Maximum limit is Reached");
             }
         }
-
         public void AddKeyValueTextField()
         {
             TextBox key = new TextBox();
@@ -91,23 +76,23 @@ namespace WindowsApplicationProject
 
             key.Name = "key";
 
-            key.Size = new Size(100,30);
+            key.Size = new Size(100, 30);
 
-           
 
-            key.Location = new System.Drawing.Point(300, 240 + rowcount * 30);
+
+            key.Location = new System.Drawing.Point(340, 260 + rowcount * 30);
 
             label.Name = "labelname";
-           
+
             label.Text = ":";
-            
-            label.Location= new System.Drawing.Point(425, 240 + rowcount * 30);
+
+            label.Location = new System.Drawing.Point(465, 260 + rowcount * 30);
 
             value.Name = "value";
 
             value.Size = new Size(100, 30);
 
-            value.Location = new System.Drawing.Point(450, 240 + rowcount * 30);
+            value.Location = new System.Drawing.Point(490, 260 + rowcount * 30);
 
             Controls.Add(key);
 
@@ -117,12 +102,37 @@ namespace WindowsApplicationProject
 
             rowcount++;
 
-            width = 240 + rowcount * 30;
+            width = 260 + rowcount * 30;
         }
-
-        private void label1_Click(object sender, EventArgs e)
+        public List<string> GetKeyTextBoxContent()
         {
+            List<string> key = new List<string>();
 
+            foreach (Control c in Controls)
+            {
+                if (c is TextBox && c.Name == "key")
+                {
+                    key.Add(c.Text);
+
+                }
+            }
+
+            return key;
+        }
+        public List<string> GetValueTextBoxContent()
+        {
+            List<string> value = new List<string>();
+
+            foreach (Control c in Controls)
+            {
+                if (c is TextBox && c.Name == "value")
+                {
+                    value.Add(c.Text);
+
+                }
+            }
+
+            return value;
         }
 
         private async void button2_Click(object sender, EventArgs e)
@@ -130,13 +140,10 @@ namespace WindowsApplicationProject
             textBox1.ReadOnly = true;
             textBox2.ReadOnly = true;
             textBox3.ReadOnly = true;
-            buttons.Value = "Stop";
-            buttons.UseColumnTextForButtonValue = false;
-            try {
-                client = new EventHubProducerClient(user.EventHubNamespace, user.EventHubName);
-                LoggerConfig._LogInformation("Successfully Connected to event hub");
-
-                batch = await client.CreateBatchAsync();
+            try
+            {
+                deviceclient = DeviceClient.CreateFromConnectionString(device.DeviceConnectionString);
+                await deviceclient.OpenAsync();
                 List<string> keydata = GetKeyTextBoxContent();
                 List<string> valuedata = GetValueTextBoxContent();
 
@@ -162,17 +169,15 @@ namespace WindowsApplicationProject
                 eventdata.Add("Body", textBox1.Text);
 
                 eventdata.Add("Attributes", jsondata);
+                var data = JsonConvert.SerializeObject(eventdata, Formatting.Indented);
 
-                jsoneventdata = JsonConvert.SerializeObject(eventdata, Formatting.Indented);
-
-                eventData = new EventData(Encoding.UTF8.GetBytes(jsoneventdata));
-                batch.TryAdd(eventData);
+                message = new Microsoft.Azure.Devices.Client.Message(Encoding.UTF8.GetBytes(data));
 
                 if (!(String.IsNullOrWhiteSpace(textBox1.Text)))
                 {
                     if (!String.IsNullOrWhiteSpace(textBox2.Text) && !String.IsNullOrWhiteSpace(textBox3.Text))
                     {
-                        
+
                         var times = textBox2.Text;
 
                         var time = textBox3.Text;
@@ -188,8 +193,8 @@ namespace WindowsApplicationProject
                                 {
 
                                     totaltime = (n2 * 60) / n1;
-                                    timer.Interval = totaltime*1000;
-                                    timer.Tick += SendingtoEventHub;
+                                    timer.Interval = totaltime * 1000;
+                                    timer.Tick += SendingtoIoTHub;
                                     timer.Start();
 
 
@@ -199,44 +204,41 @@ namespace WindowsApplicationProject
                                 {
                                     LoggerConfig._LogError("Enter a correct value for no of times field", null);
                                     MessageBox.Show("In One Minute Only 60 Messages can be sent");
-                                    buttons.Value = "Start";
-                                    buttons.UseColumnTextForButtonValue = false;
                                     textBox1.ReadOnly = false;
                                     textBox2.ReadOnly = false;
                                     textBox3.ReadOnly = false;
+
                                 }
                             }
                             else
                             {
                                 LoggerConfig._LogError("Enter a Postive Number in No of times Field  and Time Field", null);
                                 MessageBox.Show("Enter a Positive Number for a No of times field and Time Field");
-                                buttons.Value = "Start";
-                                buttons.UseColumnTextForButtonValue = false;
                                 textBox1.ReadOnly = false;
                                 textBox2.ReadOnly = false;
                                 textBox3.ReadOnly = false;
+
                             }
                         }
                         catch (Exception ex)
                         {
                             LoggerConfig._LogError("Enter a Postive Number in No of times Field and Time Field ", ex);
                             MessageBox.Show("Enter a Postive Number in No of times Field and Time Field ");
-                            buttons.Value = "Start";
-                            buttons.UseColumnTextForButtonValue = false;
                             textBox1.ReadOnly = false;
                             textBox2.ReadOnly = false;
                             textBox3.ReadOnly = false;
 
+
                         }
-                        
-                        
+
+
                     }
                     else if (!String.IsNullOrWhiteSpace(textBox2.Text) && String.IsNullOrWhiteSpace(textBox3.Text))
                     {
-                        
+
                         var times = textBox2.Text;
 
-                        
+
                         try
                         {
 
@@ -245,7 +247,7 @@ namespace WindowsApplicationProject
                             if (n > 0)
                             {
                                 timer.Interval = 1000;
-                                timer.Tick += SendingtoEventHub;
+                                timer.Tick += SendingtoIoTHub;
                                 timer.Start();
 
                             }
@@ -253,139 +255,82 @@ namespace WindowsApplicationProject
                             {
                                 LoggerConfig._LogError("Enter a Postive Number in No of times Field ", null);
                                 MessageBox.Show("Enter a Positive Number for a No of times field");
-                                buttons.Value = "Start";
-                                buttons.UseColumnTextForButtonValue = false;
                                 textBox1.ReadOnly = false;
                                 textBox2.ReadOnly = false;
                                 textBox3.ReadOnly = false;
+
                             }
                         }
                         catch (Exception ex)
                         {
                             LoggerConfig._LogError("Enter a Postive Number in No of times Field ", ex);
                             MessageBox.Show("Enter a Postive Number in No of times Field ");
-                            buttons.Value = "Start";
-                            buttons.UseColumnTextForButtonValue = false;
                             textBox1.ReadOnly = false;
                             textBox2.ReadOnly = false;
                             textBox3.ReadOnly = false;
+
                         }
-                        
-                        
+
+
                     }
-                    
+
 
                     else
                     {
-                        
-                        await sendingtoEventHub1();
-                        LoggerConfig._LogInformation("event sent to Event Hub");
-                        MessageBox.Show("Data Successfully Sent to Event Hub");
-                        
+
+                        await sendingtoIoTHub1();
+                        LoggerConfig._LogInformation("Message sent to IoT Hub");
+                        MessageBox.Show("Data Successfully Sent to IoT Hub");
+
 
                         this.Close();
-                        buttons.Value = "Start";
-                        buttons.UseColumnTextForButtonValue = false;
+                        
                     }
 
                 }
                 else
                 {
                     LoggerConfig._LogError("Body Field cannot be Empty", null);
-                    MessageBox.Show("Enter the Event Body");
-                    buttons.Value = "Start";
-                    buttons.UseColumnTextForButtonValue = false;
+                    MessageBox.Show("Enter the Message Body");
                     textBox1.ReadOnly = false;
                     textBox2.ReadOnly = false;
                     textBox3.ReadOnly = false;
+
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                LoggerConfig._LogError("event not sent to Event Hub", ex);
-                MessageBox.Show("Data not Sent to Event Hub");
+                LoggerConfig._LogError("event not sent to IoT Hub", ex);
+                MessageBox.Show("Data not Sent to IoT Hub");
                 this.Close();
             }
         }
 
-        private async void  SendingtoEventHub(object sender, EventArgs e)
+        private async void SendingtoIoTHub(object sender, EventArgs e)
         {
             if (count > 0)
             {
                 count--;
-                await client.SendAsync(batch);
-                LoggerConfig._LogInformation("Message sent to Event Hub");
+                await deviceclient.SendEventAsync(message);
+                LoggerConfig._LogInformation("Message sent to IoT Hub");
 
-                
+
             }
             else
             {
                 timer.Stop();
                 this.Close();
-                MessageBox.Show("Message sent to Event Hub");
-                buttons.Value = "Start";
-                buttons.UseColumnTextForButtonValue = false;
+                await deviceclient.CloseAsync();
+                MessageBox.Show("Message sent to IoT Hub");
+               
 
             }
         }
 
-        public async Task sendingtoEventHub1()
+        private async Task sendingtoIoTHub1()
         {
-            
-            await client.SendAsync(batch);
-            
-
-
-        }
-        public List<string> GetKeyTextBoxContent()
-        {
-            List<string> key = new List<string>();
-
-            foreach(Control c in Controls)
-            {
-                if(c is TextBox && c.Name=="key" )
-                {
-                    key.Add(c.Text);
-
-                }
-            }
-
-            return key;
-        }
-        public List<string> GetValueTextBoxContent()
-        {
-            List<string> value = new List<string>();
-
-            foreach (Control c in Controls)
-            {
-                if (c is TextBox && c.Name == "value")
-                {
-                    value.Add(c.Text);
-
-                }
-            }
-
-            return value;
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void EventSendingForm_Load(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
+            await deviceclient.SendEventAsync(message);
+            await deviceclient.CloseAsync();
         }
     }
 }

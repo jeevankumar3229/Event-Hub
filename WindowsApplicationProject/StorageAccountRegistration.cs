@@ -41,14 +41,15 @@ namespace WindowsApplicationProject
 
         private void button1_Click(object sender, EventArgs e)
         {
+            textBox1.ReadOnly = true;
+            textBox2.ReadOnly = true;
             string storage_account_connection = textBox1.Text;
 
             string storage_account_name = textBox2.Text;
 
             if (!(String.IsNullOrWhiteSpace(storage_account_connection)) && !(String.IsNullOrWhiteSpace(storage_account_name)))
             {
-                textBox1.ReadOnly = true;
-                textBox2.ReadOnly = true;
+                
 
                 Storage_Account account = new Storage_Account
                 {

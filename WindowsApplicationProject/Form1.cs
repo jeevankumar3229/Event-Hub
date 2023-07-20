@@ -123,5 +123,13 @@ namespace WindowsApplicationProject
             DeviceRegistrationForm deviceRegistrationForm = new DeviceRegistrationForm(this);
             deviceRegistrationForm.Show();
         }
+
+        private void registeredDevicesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoggerConfig._LogInformation("Opening a Registered Devices Form");
+            this.Hide();
+            RegisteredForms registeredForms = new RegisteredForms(this);
+            registeredForms.Show();
+        }
     }
 }

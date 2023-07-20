@@ -58,8 +58,7 @@ namespace WindowsApplicationProject
                 dataGridView1.Columns[1].Width = 135;
 
                 dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-
-
+                
 
 
             }

@@ -75,6 +75,9 @@
     <Reference Include="Microsoft.Azure.Amqp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Azure.Amqp.2.6.2\lib\net45\Microsoft.Azure.Amqp.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Azure.Devices, Version=1.39.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Azure.Devices.1.39.0\lib\net472\Microsoft.Azure.Devices.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Azure.Devices.Client, Version=1.42.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Azure.Devices.Client.1.42.0\lib\net472\Microsoft.Azure.Devices.Client.dll</HintPath>
     </Reference>
@@ -181,7 +184,7 @@
       <HintPath>packages\Microsoft.IdentityModel.Tokens.6.7.1\lib\net461\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Rest.ClientRuntime.2.3.20\lib\net461\Microsoft.Rest.ClientRuntime.dll</HintPath>
+      <HintPath>packages\Microsoft.Rest.ClientRuntime.2.3.21\lib\net461\Microsoft.Rest.ClientRuntime.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ServiceBus, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\WindowsAzure.ServiceBus.6.2.2\lib\net462\Microsoft.ServiceBus.dll</HintPath>
@@ -217,6 +220,11 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=7.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Diagnostics.DiagnosticSource.7.0.1\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.TraceSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.TraceSource.4.3.0\lib\net46\System.Diagnostics.TraceSource.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.7.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -322,7 +330,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cloud2DeviceMessagingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cloud2DeviceMessagingForm.Designer.cs">
+      <DependentUpon>Cloud2DeviceMessagingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Device.cs" />
+    <Compile Include="Device2CloudMessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Device2CloudMessageForm.Designer.cs">
+      <DependentUpon>Device2CloudMessageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DeviceRegistrationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -354,6 +374,13 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="IoTHubListenerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IoTHubListenerForm.Designer.cs">
+      <DependentUpon>IoTHubListenerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Listener.cs" />
     <Compile Include="ListenerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -369,11 +396,35 @@
     <Compile Include="PublisherForm.Designer.cs">
       <DependentUpon>PublisherForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ReadC2DFromDeviceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReadC2DFromDeviceForm.Designer.cs">
+      <DependentUpon>ReadC2DFromDeviceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReadD2CFromIoTHubForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReadD2CFromIoTHubForm.Designer.cs">
+      <DependentUpon>ReadD2CFromIoTHubForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReadingIotHubMessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReadingIotHubMessageForm.Designer.cs">
+      <DependentUpon>ReadingIotHubMessageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="RegisteredEventHubUsers.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="RegisteredEventHubUsers.Designer.cs">
       <DependentUpon>RegisteredEventHubUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegisteredForms.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegisteredForms.Designer.cs">
+      <DependentUpon>RegisteredForms.cs</DependentUpon>
     </Compile>
     <Compile Include="RegisteredStorageAccounts.cs">
       <SubType>Form</SubType>
@@ -395,6 +446,12 @@
     </Compile>
     <Compile Include="Storage_Account.cs" />
     <Compile Include="User.cs" />
+    <EmbeddedResource Include="Cloud2DeviceMessagingForm.resx">
+      <DependentUpon>Cloud2DeviceMessagingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Device2CloudMessageForm.resx">
+      <DependentUpon>Device2CloudMessageForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DeviceRegistrationForm.resx">
       <DependentUpon>DeviceRegistrationForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -409,6 +466,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IoTHubListenerForm.resx">
+      <DependentUpon>IoTHubListenerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListenerForm.resx">
       <DependentUpon>ListenerForm.cs</DependentUpon>
@@ -425,8 +485,20 @@
     <EmbeddedResource Include="PublisherForm.resx">
       <DependentUpon>PublisherForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ReadC2DFromDeviceForm.resx">
+      <DependentUpon>ReadC2DFromDeviceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReadD2CFromIoTHubForm.resx">
+      <DependentUpon>ReadD2CFromIoTHubForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReadingIotHubMessageForm.resx">
+      <DependentUpon>ReadingIotHubMessageForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RegisteredEventHubUsers.resx">
       <DependentUpon>RegisteredEventHubUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegisteredForms.resx">
+      <DependentUpon>RegisteredForms.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegisteredStorageAccounts.resx">
       <DependentUpon>RegisteredStorageAccounts.cs</DependentUpon>

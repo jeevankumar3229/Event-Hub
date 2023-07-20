@@ -184,6 +184,7 @@
             this.registeredDevicesToolStripMenuItem.Name = "registeredDevicesToolStripMenuItem";
             this.registeredDevicesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.registeredDevicesToolStripMenuItem.Text = "Registered Devices";
+            this.registeredDevicesToolStripMenuItem.Click += new System.EventHandler(this.registeredDevicesToolStripMenuItem_Click);
             // 
             // button1
             // 

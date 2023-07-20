@@ -9,7 +9,8 @@ namespace WindowsApplicationProject
     public class Device
     {
         public string IotHubConnectionString { get; set; }
-        public string IotHubName { get; set; }
+
+        public string HostName { get; set; }
         public string DeviceConnectionString { get; set; }
         public string DeviceID { get; set; }
 

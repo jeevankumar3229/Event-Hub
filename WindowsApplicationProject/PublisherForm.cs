@@ -44,7 +44,7 @@ namespace WindowsApplicationProject
 
         private async void button1_Click(object sender, EventArgs e)
         {
-           
+            
             string publishername = textBox1.Text;
             string hubnamespace = textBox3.Text;
             string hubname = textBox2.Text;
@@ -75,9 +75,11 @@ namespace WindowsApplicationProject
 
                     if (File.Exists(filepath))
                     {
+
                         string filedata = File.ReadAllText(filepath);
 
                         user = JsonConvert.DeserializeObject<List<User>>(filedata);
+                        
                         
                         user.Add(l);
                     }
@@ -85,13 +87,15 @@ namespace WindowsApplicationProject
                     {
                         user = new List<User> { l };
                     }
+                    
                     string data = JsonConvert.SerializeObject(user, Formatting.Indented);
                     File.WriteAllText(filepath, data);
                     LoggerConfig._LogInformation("Publisher Successfully Registered");
                     MessageBox.Show("Publisher Successfully Registered");
                     LoggerConfig._LogInformation("Opening form Page");
-
+                    
                     this.Close();
+                        
                     await client.DisposeAsync();
                     
 

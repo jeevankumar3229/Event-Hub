@@ -27,7 +27,7 @@ namespace WindowsApplicationProject
         List<string> list = new List<string>();
         BlobServiceClient client;
         BlobContainerClient blobContainerClient;
-        int click = 0;
+        //int click = 0;
 
         public StorageAccountMainPage(Storage_Account storage_Account,RegisteredStorageAccounts registeredStorageAccounts)
         {
@@ -234,7 +234,7 @@ namespace WindowsApplicationProject
         {
             if (comboBox2.SelectedItem != null)
             {
-                click = 1;
+                //click = 1;
                 dataGridView1.Columns.Clear();
 
                 dataGridView1.Columns.Add("Name", "Name");
@@ -270,8 +270,8 @@ namespace WindowsApplicationProject
 
         private void content_click(object sender, DataGridViewCellEventArgs e)
         {
-            if (click == 1)
-            {
+            //if (click == 1)
+            //{
                 if (e.RowIndex >= 0)
                 {
 
@@ -292,16 +292,15 @@ namespace WindowsApplicationProject
                         }
                         catch (Exception)
                         {
-                            var regex = new Regex(@"\d+$");
-
-                            if (regex.Match(blobitemname).Success)
-                            {
-                                MessageBox.Show("No data to show");
-                            }
-                            else
+                            //var regex = new Regex(@"\");
+                            if (blobitemname.EndsWith(".txt"))
                             {
                                 object content = new StreamReader(memoryStream).ReadToEnd();
                                 MessageBox.Show(content.ToString());
+                            }
+                            else
+                            {
+                                MessageBox.Show("No data to show");
                             }
                         }
                     }
@@ -312,7 +311,7 @@ namespace WindowsApplicationProject
 
 
                 }
-            }
+           // }
         }
 
         private void button1_Click(object sender, EventArgs e)
