@@ -70,7 +70,7 @@ namespace WindowsApplicationProject
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            int flag = 0;
             string listenername = textBox6.Text;
             string hubnamespace = textBox1.Text;
             string hubname = textBox5.Text;
@@ -118,7 +118,14 @@ namespace WindowsApplicationProject
                         { 
                             string filedata = File.ReadAllText(filepath);
                             user = JsonConvert.DeserializeObject<List<User>>(filedata);
-                            
+                            foreach (User user1 in user)
+                            {
+                                if ((user1.EventHubNamespace == l.EventHubNamespace) && (user1.EventHubName == l.EventHubName) && (user1.ConsumerGroup==l.ConsumerGroup) && (user1.StorageAccount==l.StorageAccount) && (user1.Container==l.Container))
+                                {
+                                    flag = 1;
+                                }
+                            }
+
                             user.Add(l);
 
                         }
@@ -127,11 +134,17 @@ namespace WindowsApplicationProject
                             user = new List<User> { l };
 
                         }
-                        
-                        string data = JsonConvert.SerializeObject(user, Formatting.Indented);
-                        File.WriteAllText(filepath, data);
-                        LoggerConfig._LogInformation("Listener Successfully Registered");
-                        MessageBox.Show("Listener Successfully Registered");
+                        if (flag == 0)
+                        {
+                            string data = JsonConvert.SerializeObject(user, Formatting.Indented);
+                            File.WriteAllText(filepath, data);
+                            LoggerConfig._LogInformation("Listener Successfully Registered");
+                            MessageBox.Show("Listener Successfully Registered");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Listener Already Registered");
+                        }
                         
                         LoggerConfig._LogInformation("Opening form Page");
                         this.Close();

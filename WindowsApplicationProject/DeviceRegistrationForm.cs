@@ -43,6 +43,7 @@ namespace WindowsApplicationProject
 
         private async  void button1_Click(object sender, EventArgs e)
         {
+            int flag = 0;
             textBox1.ReadOnly = true;
             textBox2.ReadOnly = true;
             textBox3.ReadOnly = true;
@@ -76,6 +77,13 @@ namespace WindowsApplicationProject
                             {
                                 string filedata = File.ReadAllText(filepath);
                                 devices = JsonConvert.DeserializeObject<List<Device>>(filedata);
+                                foreach(Device device1 in devices)
+                                {
+                                    if((device1.IotHubConnectionString==device.IotHubConnectionString)&&(device1.HostName==device.HostName) && (device1.DeviceConnectionString == device.DeviceConnectionString) && (device1.DeviceID == device.DeviceID))
+                                    {
+                                        flag = 1;
+                                    }
+                                }
                                 devices.Add(device);
 
                             }
@@ -84,10 +92,17 @@ namespace WindowsApplicationProject
                                 devices = new List<Device> { device };
 
                             }
-                            string data = JsonConvert.SerializeObject(devices, Formatting.Indented);
-                            File.WriteAllText(filepath, data);
-                            LoggerConfig._LogInformation("Device Successfully Registered");
-                            MessageBox.Show("Device Successfully Registered");
+                            if (flag == 0)
+                            {
+                                string data = JsonConvert.SerializeObject(devices, Formatting.Indented);
+                                File.WriteAllText(filepath, data);
+                                LoggerConfig._LogInformation("Device Successfully Registered");
+                                MessageBox.Show("Device Successfully Registered");
+                            }
+                            else
+                            {
+                                MessageBox.Show("Device Already Registered");
+                            }
                             LoggerConfig._LogInformation("Opening form Page");
                             this.Close();
                         }

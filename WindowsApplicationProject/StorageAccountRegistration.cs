@@ -41,6 +41,7 @@ namespace WindowsApplicationProject
 
         private void button1_Click(object sender, EventArgs e)
         {
+            int flag = 0;
             textBox1.ReadOnly = true;
             textBox2.ReadOnly = true;
             string storage_account_connection = textBox1.Text;
@@ -74,6 +75,13 @@ namespace WindowsApplicationProject
                         string filedata = File.ReadAllText(filepath);
 
                         storage_account = JsonConvert.DeserializeObject<List<Storage_Account>>(filedata);
+                        foreach(Storage_Account storage_Account in storage_account)
+                        {
+                            if((storage_Account.Storage_Account_Connection==account.Storage_Account_Connection) && (storage_Account.Storage_Account_Name == account.Storage_Account_Name))
+                            {
+                                flag = 1;
+                            }
+                        }
 
                         storage_account.Add(account);
                     }
@@ -81,10 +89,17 @@ namespace WindowsApplicationProject
                     {
                         storage_account = new List<Storage_Account> { account };
                     }
-                    string data = JsonConvert.SerializeObject(storage_account, Newtonsoft.Json.Formatting.Indented);
-                    File.WriteAllText(filepath, data);
-                    LoggerConfig._LogInformation("Storage Account Successfully Registered");
-                    MessageBox.Show("Storage Account Successfully Registered");
+                    if (flag == 0)
+                    {
+                        string data = JsonConvert.SerializeObject(storage_account, Newtonsoft.Json.Formatting.Indented);
+                        File.WriteAllText(filepath, data);
+                        LoggerConfig._LogInformation("Storage Account Successfully Registered");
+                        MessageBox.Show("Storage Account Successfully Registered");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Storage Account Already Registered");
+                    }
                     LoggerConfig._LogInformation("Opening form Page");
                     this.Close();
                     

@@ -44,7 +44,7 @@ namespace WindowsApplicationProject
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            
+            int flag = 0;
             string publishername = textBox1.Text;
             string hubnamespace = textBox3.Text;
             string hubname = textBox2.Text;
@@ -75,11 +75,16 @@ namespace WindowsApplicationProject
 
                     if (File.Exists(filepath))
                     {
-
                         string filedata = File.ReadAllText(filepath);
 
                         user = JsonConvert.DeserializeObject<List<User>>(filedata);
-                        
+                        foreach(User user1 in user)
+                        {
+                            if ((user1.EventHubNamespace == l.EventHubNamespace) && (user1.EventHubName == l.EventHubName))
+                            {
+                                flag = 1;
+                            }
+                        }
                         
                         user.Add(l);
                     }
@@ -87,16 +92,24 @@ namespace WindowsApplicationProject
                     {
                         user = new List<User> { l };
                     }
-                    
-                    string data = JsonConvert.SerializeObject(user, Formatting.Indented);
-                    File.WriteAllText(filepath, data);
-                    LoggerConfig._LogInformation("Publisher Successfully Registered");
-                    MessageBox.Show("Publisher Successfully Registered");
+                    if (flag == 0)
+                    {
+                        string data = JsonConvert.SerializeObject(user, Formatting.Indented);
+                        File.WriteAllText(filepath, data);
+                        LoggerConfig._LogInformation("Publisher Successfully Registered");
+                        MessageBox.Show("Publisher Successfully Registered");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Publisher Already Registered");
+                    }
+                
                     LoggerConfig._LogInformation("Opening form Page");
-                    
+
                     this.Close();
-                        
+
                     await client.DisposeAsync();
+                    
                     
 
                 }
