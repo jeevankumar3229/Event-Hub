@@ -65,9 +65,9 @@ namespace WindowsApplicationProject
             dataGridView1.Columns.Add("Body", "Body");
             dataGridView1.Columns.Add("Attributes", "Attributes");
             dataGridView1.Columns.Add("Time", "Time");
-            dataGridView1.Columns[0].Width = 280;
-            dataGridView1.Columns[1].Width = 280;
-            dataGridView1.Columns[2].Width = 173;
+            dataGridView1.Columns[0].Width = 350;
+            dataGridView1.Columns[1].Width = 350;
+            dataGridView1.Columns[2].Width = 193;
             //dataGridView1.CellMouseMove += datagridview1_CellMousClick;
         }
 

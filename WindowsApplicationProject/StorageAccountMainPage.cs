@@ -59,10 +59,7 @@ namespace WindowsApplicationProject
                 comboBox2.Items.Add(container.Name);
             }
 
-            /*foreach (string containername in containersnames)
-            {
-                comboBox2.Items.Add(containername);
-            }*/
+            
         }
 
         private void combo_click(object sender, EventArgs e)
@@ -79,10 +76,7 @@ namespace WindowsApplicationProject
                 comboBox1.Items.Add(clienttable.Name);
             }
 
-            /*foreach (string tablename in tables)
-            {
-                comboBox1.Items.Add(tablename);
-            }*/
+           
         }
 
         private void StorageAccountMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -121,7 +115,7 @@ namespace WindowsApplicationProject
 
                 foreach (DynamicTableEntity dynamicTableEntity in table1.ExecuteQuery(query))
                 {
-                    if (count == 0)
+                    if (count == 0)// count variable is used to display the partition key,row key and timestamp once
                     {
                         dataGridView1.Columns.Add("Partition Key", "Partition Key");
                         columnlist.Add("Partition Key");

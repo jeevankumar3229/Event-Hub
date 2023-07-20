@@ -47,6 +47,8 @@ namespace WindowsApplicationProject
 
         private void button1_Click(object sender, EventArgs e)
         {
+            button1.Enabled = false;
+            button2.Enabled = false;
             int flag = 0;
             string listenername = textBox6.Text;
             string hubconstring = textBox1.Text;
@@ -135,6 +137,8 @@ namespace WindowsApplicationProject
                         textBox4.ReadOnly = false;
                         textBox3.ReadOnly = false;
                         textBox2.ReadOnly = false;
+                        button1.Enabled = true;
+                        button2.Enabled = true;
 
                     }
 
@@ -150,6 +154,8 @@ namespace WindowsApplicationProject
                     textBox4.ReadOnly = false;
                     textBox3.ReadOnly = false;
                     textBox2.ReadOnly = false;
+                    button1.Enabled = true;
+                    button2.Enabled = true;
 
                 }
 

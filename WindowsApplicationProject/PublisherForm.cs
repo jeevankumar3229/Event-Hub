@@ -44,6 +44,8 @@ namespace WindowsApplicationProject
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            button1.Enabled = false;
+            button2.Enabled = false;
             int flag = 0;
             string publishername = textBox1.Text;
             string hubnamespace = textBox3.Text;
@@ -120,6 +122,8 @@ namespace WindowsApplicationProject
                     textBox1.ReadOnly = false;
                     textBox2.ReadOnly = false;
                     textBox3.ReadOnly = false;
+                    button1.Enabled = true;
+                    button2.Enabled = true;
                     await client.DisposeAsync();
                 }
                 
@@ -131,6 +135,8 @@ namespace WindowsApplicationProject
                 textBox1.ReadOnly = false;
                 textBox2.ReadOnly = false;
                 textBox3.ReadOnly = false;
+                button1.Enabled = true;
+                button2.Enabled = true;
             }
         }
         

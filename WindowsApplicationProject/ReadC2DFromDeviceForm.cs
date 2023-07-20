@@ -120,7 +120,7 @@ namespace WindowsApplicationProject
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (button1.Text == "Start")
+            if (button2.Text == "Start")
             {
                 this.Close();
             }

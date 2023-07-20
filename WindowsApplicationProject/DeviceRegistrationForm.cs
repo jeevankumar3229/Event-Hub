@@ -48,6 +48,8 @@ namespace WindowsApplicationProject
             textBox2.ReadOnly = true;
             textBox3.ReadOnly = true;
             textBox4.ReadOnly = true;
+            button1.Enabled = false;
+            button2.Enabled = false;
             string iothubconstring = textBox1.Text;
             string hostname = textBox2.Text;
             string deviceconstring = textBox3.Text;
@@ -113,6 +115,8 @@ namespace WindowsApplicationProject
                             textBox2.ReadOnly = false;
                             textBox3.ReadOnly = false;
                             textBox4.ReadOnly = false;
+                            button1.Enabled = true;
+                            button2.Enabled = true; 
                         }
 
                     }
@@ -123,6 +127,8 @@ namespace WindowsApplicationProject
                         textBox2.ReadOnly = false;
                         textBox3.ReadOnly = false;
                         textBox4.ReadOnly = false;
+                        button1.Enabled = true;
+                        button2.Enabled = true;
                     }
                     
                     
@@ -134,6 +140,8 @@ namespace WindowsApplicationProject
                     textBox2.ReadOnly = false;
                     textBox3.ReadOnly = false;
                     textBox4.ReadOnly = false;
+                    button1.Enabled = true;
+                    button2.Enabled = true;
                 }
 
               
@@ -147,6 +155,8 @@ namespace WindowsApplicationProject
                 textBox2.ReadOnly = false;
                 textBox3.ReadOnly = false;
                 textBox4.ReadOnly = false;
+                button1.Enabled = true;
+                button2.Enabled = true;
 
             }
             

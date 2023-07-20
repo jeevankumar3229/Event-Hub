@@ -72,6 +72,7 @@ namespace WindowsApplicationProject
                 await client.StopProcessingAsync();
                 textBox1.ReadOnly = false;
                 textBox2.ReadOnly = false;
+                textBox3.ReadOnly = false;
                 LoggerConfig._LogInformation("Event data processing stopped");
                 button2.Text = "Start";
             }
@@ -85,6 +86,7 @@ namespace WindowsApplicationProject
         {
             textBox1.ReadOnly = true;
             textBox2.ReadOnly = true;
+            textBox3.ReadOnly = true;
             if (button2.Text == "Start")
             {
                 button2.Text = "Processing";
@@ -108,6 +110,7 @@ namespace WindowsApplicationProject
                 await client.StopProcessingAsync();
                 textBox1.ReadOnly = false;
                 textBox2.ReadOnly = false;
+                textBox3.ReadOnly = false;
                 LoggerConfig._LogInformation("Event data processing stopped");
                 button2.Text = "Start";
             }
@@ -168,6 +171,9 @@ namespace WindowsApplicationProject
             {
                 MessageBox.Show("No Data to Display");
                 button2.Text = "Start";
+                textBox1.ReadOnly = false;
+                textBox2.ReadOnly = false;
+                textBox3.ReadOnly = false;
 
             }
             else if (!(String.IsNullOrWhiteSpace(textBox1.Text)) && (String.IsNullOrWhiteSpace(textBox2.Text)))
@@ -175,6 +181,9 @@ namespace WindowsApplicationProject
                 MessageBox.Show("No Data to Display");
 
                 button2.Text = "Start";
+                textBox1.ReadOnly = false;
+                textBox2.ReadOnly = false;
+                textBox3.ReadOnly = false;
 
             }
             else
@@ -196,9 +205,6 @@ namespace WindowsApplicationProject
 
         async Task<int> ProcessHandler(ProcessEventArgs eventdata)
         {
-            //var bytes = eventdata.Data.EventBody.ToArray();
-            //var bodyString = Encoding.UTF8.GetString(bytes);
-
             var data = Convert.ToString(eventdata.Data.EventBody);
             var enqueuedtime = eventdata.Data.EnqueuedTime.ToLocalTime();
             var time = DateTime.Now.AddMinutes(-5);

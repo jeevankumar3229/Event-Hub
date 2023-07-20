@@ -140,6 +140,7 @@ namespace WindowsApplicationProject
 
         private async void button2_Click(object sender, EventArgs e)
         {
+            button2.Enabled = false;
             textBox1.ReadOnly = true;
             try
             {
@@ -280,6 +281,7 @@ namespace WindowsApplicationProject
                     LoggerConfig._LogError("Body Field cannot be Empty", null);
                     MessageBox.Show("Enter the Message Body");
                     textBox1.ReadOnly = false;
+                    button2.Enabled = true;
 
                 }
             }

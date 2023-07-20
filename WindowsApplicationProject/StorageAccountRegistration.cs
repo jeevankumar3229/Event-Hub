@@ -41,6 +41,8 @@ namespace WindowsApplicationProject
 
         private void button1_Click(object sender, EventArgs e)
         {
+            button1.Enabled = false;
+            button2.Enabled = false;
             int flag = 0;
             textBox1.ReadOnly = true;
             textBox2.ReadOnly = true;
@@ -110,6 +112,8 @@ namespace WindowsApplicationProject
                     MessageBox.Show("Invalid Details");
                     textBox1.ReadOnly = false;
                     textBox2.ReadOnly = false;
+                    button1.Enabled = true;
+                    button2.Enabled = true;
                 }
             }
             else
@@ -118,6 +122,8 @@ namespace WindowsApplicationProject
                 MessageBox.Show("Every fields should be filled");
                 textBox1.ReadOnly = false;
                 textBox2.ReadOnly = false;
+                button1.Enabled = true;
+                button2.Enabled = true;
 
             }
         }

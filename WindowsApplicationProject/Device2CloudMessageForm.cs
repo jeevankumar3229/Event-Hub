@@ -30,7 +30,7 @@ namespace WindowsApplicationProject
 
         private static void DisplayMessageBox()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(750);
             MessageBox.Show("In One Minute Only 60 Messages can be sent");
             LoggerConfig._LogInformation("In One Minute Only 60 Messages can be sent");
         }
@@ -140,6 +140,7 @@ namespace WindowsApplicationProject
             textBox1.ReadOnly = true;
             textBox2.ReadOnly = true;
             textBox3.ReadOnly = true;
+            button2.Enabled = false;
             try
             {
                 deviceclient = DeviceClient.CreateFromConnectionString(device.DeviceConnectionString);
@@ -207,6 +208,7 @@ namespace WindowsApplicationProject
                                     textBox1.ReadOnly = false;
                                     textBox2.ReadOnly = false;
                                     textBox3.ReadOnly = false;
+                                    button2.Enabled = true;
 
                                 }
                             }
@@ -217,6 +219,7 @@ namespace WindowsApplicationProject
                                 textBox1.ReadOnly = false;
                                 textBox2.ReadOnly = false;
                                 textBox3.ReadOnly = false;
+                                button2.Enabled = true;
 
                             }
                         }
@@ -227,6 +230,7 @@ namespace WindowsApplicationProject
                             textBox1.ReadOnly = false;
                             textBox2.ReadOnly = false;
                             textBox3.ReadOnly = false;
+                            button2.Enabled = true;
 
 
                         }
@@ -258,6 +262,7 @@ namespace WindowsApplicationProject
                                 textBox1.ReadOnly = false;
                                 textBox2.ReadOnly = false;
                                 textBox3.ReadOnly = false;
+                                button2.Enabled = true;
 
                             }
                         }
@@ -268,6 +273,7 @@ namespace WindowsApplicationProject
                             textBox1.ReadOnly = false;
                             textBox2.ReadOnly = false;
                             textBox3.ReadOnly = false;
+                            button2.Enabled = true;
 
                         }
 
@@ -295,6 +301,7 @@ namespace WindowsApplicationProject
                     textBox1.ReadOnly = false;
                     textBox2.ReadOnly = false;
                     textBox3.ReadOnly = false;
+                    button2.Enabled = true;
 
                 }
             }
