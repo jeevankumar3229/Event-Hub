@@ -95,16 +95,23 @@ namespace WindowsApplicationProject
                         if (File.Exists(filepath))
                         {
                             string filedata = File.ReadAllText(filepath);
-                            listeners = JsonConvert.DeserializeObject<List<Listener>>(filedata);
-                            foreach(Listener listener in listeners)
+                            if (filedata.Length > 0)
                             {
-                                if ((listener.EventHubConnectionString == l.EventHubConnectionString) && (listener.ConsumerGroup == l.ConsumerGroup) && (listener.StorageAccount == l.StorageAccount) && (listener.Container == l.Container))
+                                listeners = JsonConvert.DeserializeObject<List<Listener>>(filedata);
+                                foreach (Listener listener in listeners)
                                 {
-                                    flag = 1;
+                                    if ((String.Equals(listener.EventHubConnectionString,l.EventHubConnectionString,StringComparison.OrdinalIgnoreCase)) && (String.Equals(listener.ConsumerGroup,l.ConsumerGroup,StringComparison.OrdinalIgnoreCase)) && (String.Equals(listener.StorageAccount,l.StorageAccount,StringComparison.OrdinalIgnoreCase)) && (String.Equals(listener.Container,l.Container,StringComparison.OrdinalIgnoreCase)))
+                                    {
+                                        flag = 1;
+                                    }
                                 }
-                            }
 
-                            listeners.Add(l);
+                                listeners.Add(l);
+                            }
+                            else
+                            {
+                                listeners = new List<Listener> { l };
+                            }
 
                         }
                         else

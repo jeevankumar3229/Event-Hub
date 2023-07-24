@@ -27,7 +27,7 @@ namespace WindowsApplicationProject
         List<string> list = new List<string>();
         BlobServiceClient client;
         BlobContainerClient blobContainerClient;
-        //int click = 0;
+        int click = 0;
 
         public StorageAccountMainPage(Storage_Account storage_Account,RegisteredStorageAccounts registeredStorageAccounts)
         {
@@ -48,15 +48,21 @@ namespace WindowsApplicationProject
         private void combo2_click(object sender, EventArgs e)
         {
             comboBox2.Items.Clear();
-            
-
-            CloudStorageAccount account = CloudStorageAccount.Parse(storage_Account.Storage_Account_Connection);
-
-            var containers = account.CreateCloudBlobClient();
-
-            foreach (CloudBlobContainer container in containers.ListContainers())
+            try
             {
-                comboBox2.Items.Add(container.Name);
+                CloudStorageAccount account = CloudStorageAccount.Parse(storage_Account.Storage_Account_Connection);
+
+                var containers = account.CreateCloudBlobClient();
+
+                foreach (CloudBlobContainer container in containers.ListContainers())
+                {
+                    comboBox2.Items.Add(container.Name);
+                }
+            }
+            catch(Exception ex)
+            {
+                LoggerConfig._LogError("Error Occurred", ex);
+                MessageBox.Show("Error Occurred");
             }
 
             
@@ -65,15 +71,21 @@ namespace WindowsApplicationProject
         private void combo_click(object sender, EventArgs e)
         {
             comboBox1.Items.Clear();
-            
-
-            CloudStorageAccount account = CloudStorageAccount.Parse(storage_Account.Storage_Account_Connection);
-
-            var table = account.CreateCloudTableClient();
-
-            foreach (CloudTable clienttable in table.ListTables())
+            try
             {
-                comboBox1.Items.Add(clienttable.Name);
+                CloudStorageAccount account = CloudStorageAccount.Parse(storage_Account.Storage_Account_Connection);
+
+                var table = account.CreateCloudTableClient();
+
+                foreach (CloudTable clienttable in table.ListTables())
+                {
+                    comboBox1.Items.Add(clienttable.Name);
+                }
+            }
+            catch(Exception ex)
+            {
+                LoggerConfig._LogError("Error Occurred", ex);
+                MessageBox.Show("Error Occurred");
             }
 
            
@@ -91,172 +103,188 @@ namespace WindowsApplicationProject
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem != null)
+            try
             {
-
-                var data = comboBox1.SelectedItem.ToString();
-                int count = 0;
-                var index = -1;
-
-
-                CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(storage_Account.Storage_Account_Connection);
-
-                var tableclient = cloudStorageAccount.CreateCloudTableClient();
-
-                var table1 = tableclient.GetTableReference(data.ToString());
-
-
-                dataGridView1.Columns.Clear();
-
-                List<string> columnlist = new List<string>();
-
-
-                TableQuery<DynamicTableEntity> query = new TableQuery<DynamicTableEntity>();
-
-                foreach (DynamicTableEntity dynamicTableEntity in table1.ExecuteQuery(query))
+                if (comboBox1.SelectedItem != null)
                 {
-                    if (count == 0)// count variable is used to display the partition key,row key and timestamp once
+
+                    var data = comboBox1.SelectedItem.ToString();
+                    int count = 0;
+                    var index = -1;
+
+
+                    CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(storage_Account.Storage_Account_Connection);
+
+                    var tableclient = cloudStorageAccount.CreateCloudTableClient();
+
+                    var table1 = tableclient.GetTableReference(data.ToString());
+
+
+                    dataGridView1.Columns.Clear();
+
+                    List<string> columnlist = new List<string>();
+
+
+                    TableQuery<DynamicTableEntity> query = new TableQuery<DynamicTableEntity>();
+
+                    foreach (DynamicTableEntity dynamicTableEntity in table1.ExecuteQuery(query))
                     {
-                        dataGridView1.Columns.Add("Partition Key", "Partition Key");
-                        columnlist.Add("Partition Key");
-                        dataGridView1.Columns.Add("Row Key", "Row Key");
-                        columnlist.Add("Row Key");
-                        dataGridView1.Columns.Add("TimeStamp", "TimeStamp");
-                        columnlist.Add("TimeStamp");
-                        count++;
-
-                    }
-
-
-
-                    foreach (var property in dynamicTableEntity.Properties)
-                    {
-                        if (!(dataGridView1.Columns.Contains(property.Key)))
+                        if (count == 0)// count variable is used to display the partition key,row key and timestamp once
                         {
-                            dataGridView1.Columns.Add(property.Key, property.Key);
-                            columnlist.Add(property.Key);
+                            dataGridView1.Columns.Add("Partition Key", "Partition Key");
+                            columnlist.Add("Partition Key");
+                            dataGridView1.Columns.Add("Row Key", "Row Key");
+                            columnlist.Add("Row Key");
+                            dataGridView1.Columns.Add("TimeStamp", "TimeStamp");
+                            columnlist.Add("TimeStamp");
+                            count++;
 
                         }
 
-                    }
 
 
-                }
-
-
-
-
-                foreach (DynamicTableEntity dynamicTableEntity1 in table1.ExecuteQuery(query))
-                {
-                    DataGridViewRow row = new DataGridViewRow();
-                    row.Cells.Add(new DataGridViewTextBoxCell { Value = dynamicTableEntity1.PartitionKey });
-                    row.Cells.Add(new DataGridViewTextBoxCell { Value = dynamicTableEntity1.RowKey });
-                    row.Cells.Add(new DataGridViewTextBoxCell { Value = dynamicTableEntity1.Timestamp });
-                    int j = 3;
-
-                    foreach (var property in dynamicTableEntity1.Properties)
-                    {
-
-                        foreach (var columnname in columnlist)
+                        foreach (var property in dynamicTableEntity.Properties)
                         {
-                            if (columnname == property.Key)
+                            if (!(dataGridView1.Columns.Contains(property.Key)))
                             {
-                                index = columnlist.IndexOf(columnname);
+                                dataGridView1.Columns.Add(property.Key, property.Key);
+                                columnlist.Add(property.Key);
 
                             }
+
                         }
-                        for (int i = j; i <= index; i++)
+
+
+                    }
+
+
+
+
+                    foreach (DynamicTableEntity dynamicTableEntity1 in table1.ExecuteQuery(query))
+                    {
+                        DataGridViewRow row = new DataGridViewRow();
+                        row.Cells.Add(new DataGridViewTextBoxCell { Value = dynamicTableEntity1.PartitionKey });
+                        row.Cells.Add(new DataGridViewTextBoxCell { Value = dynamicTableEntity1.RowKey });
+                        row.Cells.Add(new DataGridViewTextBoxCell { Value = dynamicTableEntity1.Timestamp });
+                        int j = 3;
+
+                        foreach (var property in dynamicTableEntity1.Properties)
                         {
-                            if (i == index)
+
+                            foreach (var columnname in columnlist)
                             {
-                                var value = property.Value.PropertyType;
-                                switch (value)
+                                if (columnname == property.Key)
                                 {
-                                    case EdmType.Binary:
-                                        row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.BinaryValue });
-                                        break;
-                                    case EdmType.String:
-                                        row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.StringValue });
-                                        break;
-                                    case EdmType.Boolean:
-                                        row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.BooleanValue });
-                                        break;
-                                    case EdmType.DateTime:
-                                        row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.DateTime });
-                                        break;
-                                    case EdmType.Double:
-                                        row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.DoubleValue });
-                                        break;
-                                    case EdmType.Guid:
-                                        row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.GuidValue });
-                                        break;
-                                    case EdmType.Int32:
-                                        row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.Int32Value });
-                                        break;
-                                    case EdmType.Int64:
-                                        row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.Int64Value });
-                                        break;
-
-                                    default: break;
-
-
+                                    index = columnlist.IndexOf(columnname);
 
                                 }
                             }
-                            else
+                            for (int i = j; i <= index; i++)
                             {
-                                row.Cells.Add(new DataGridViewTextBoxCell { Value = " " });
+                                if (i == index)
+                                {
+                                    var value = property.Value.PropertyType;
+                                    switch (value)
+                                    {
+                                        case EdmType.Binary:
+                                            row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.BinaryValue });
+                                            break;
+                                        case EdmType.String:
+                                            row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.StringValue });
+                                            break;
+                                        case EdmType.Boolean:
+                                            row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.BooleanValue });
+                                            break;
+                                        case EdmType.DateTime:
+                                            row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.DateTime });
+                                            break;
+                                        case EdmType.Double:
+                                            row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.DoubleValue });
+                                            break;
+                                        case EdmType.Guid:
+                                            row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.GuidValue });
+                                            break;
+                                        case EdmType.Int32:
+                                            row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.Int32Value });
+                                            break;
+                                        case EdmType.Int64:
+                                            row.Cells.Add(new DataGridViewTextBoxCell { Value = property.Value.Int64Value });
+                                            break;
+
+                                        default: break;
+
+
+
+                                    }
+                                }
+                                else
+                                {
+                                    row.Cells.Add(new DataGridViewTextBoxCell { Value = " " });
+                                }
                             }
+                            j = index + 1;
+
+
+
                         }
-                        j = index + 1;
-
-
-
+                        dataGridView1.Rows.Add(row);
                     }
-                    dataGridView1.Rows.Add(row);
+
+
                 }
-
-
+                else
+                {
+                    MessageBox.Show("Error Occurred");
+                }
             }
-            else
+            catch(Exception ex)
             {
+                LoggerConfig._LogError("Error Occurred", ex);
                 MessageBox.Show("Error Occurred");
             }
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox2.SelectedItem != null)
+            try
             {
-                //click = 1;
-                dataGridView1.Columns.Clear();
-
-                dataGridView1.Columns.Add("Name", "Name");
-                dataGridView1.Columns[0].Width = 730;
-
-
-                var combo2data = comboBox2.SelectedItem.ToString();
-                client = new BlobServiceClient(storage_Account.Storage_Account_Connection);
-                blobContainerClient = client.GetBlobContainerClient(combo2data);
-                var blobs = blobContainerClient.GetBlobs();
-
-                foreach (BlobItem blobItem in blobs)
+                if (comboBox2.SelectedItem != null)
                 {
-                    DataGridViewRow dataGridViewRow = new DataGridViewRow();
+                    click = 1;
+                    dataGridView1.Columns.Clear();
 
-                    dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell { Value = blobItem.Name });
-                    list.Add(blobItem.Name); //this list is required to display the content of blob when you click on blob object
-                    MemoryStream memoryStream = new MemoryStream();
+                    dataGridView1.Columns.Add("Name", "Name");
+                    dataGridView1.Columns[0].Width = 730;
 
 
-                    dataGridView1.Rows.Add(dataGridViewRow);
+                    var combo2data = comboBox2.SelectedItem.ToString();
+                    client = new BlobServiceClient(storage_Account.Storage_Account_Connection);
+                    blobContainerClient = client.GetBlobContainerClient(combo2data);
+                    var blobs = blobContainerClient.GetBlobs();
+
+                    foreach (BlobItem blobItem in blobs)
+                    {
+                        DataGridViewRow dataGridViewRow = new DataGridViewRow();
+
+                        dataGridViewRow.Cells.Add(new DataGridViewTextBoxCell { Value = blobItem.Name });
+                        list.Add(blobItem.Name); //this list is required to display the content of blob when you click on blob object
+                        MemoryStream memoryStream = new MemoryStream();
+
+
+                        dataGridView1.Rows.Add(dataGridViewRow);
+                    }
+
+
+
                 }
-
-
-
+                else
+                {
+                    MessageBox.Show("Error Occurred");
+                }
             }
-            else
+            catch(Exception ex)
             {
+                LoggerConfig._LogError("Error Occurred", ex);
                 MessageBox.Show("Error Occurred");
             }
         }
@@ -264,16 +292,17 @@ namespace WindowsApplicationProject
 
         private void content_click(object sender, DataGridViewCellEventArgs e)
         {
-            //if (click == 1)
-            //{
+             
+            if (click == 1)
+            {
                 if (e.RowIndex >= 0)
                 {
-
-                    string blobitemname = list[e.RowIndex];
-                    BlobClient blobClient = blobContainerClient.GetBlobClient(blobitemname);
-                    MemoryStream memoryStream = new MemoryStream();
-                    try
-                    {
+                    try 
+                    { 
+                        string blobitemname = list[e.RowIndex];
+                        BlobClient blobClient = blobContainerClient.GetBlobClient(blobitemname);
+                        MemoryStream memoryStream = new MemoryStream();
+                    
                         blobClient.DownloadTo(memoryStream);
                         try
                         {
@@ -305,7 +334,7 @@ namespace WindowsApplicationProject
 
 
                 }
-           // }
+           }
         }
 
         private void button1_Click(object sender, EventArgs e)

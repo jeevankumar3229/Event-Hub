@@ -46,6 +46,7 @@
             this.registerToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.registeredDevicesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.menuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,7 +55,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.menuStrip1.Location = new System.Drawing.Point(0, 63);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(722, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(751, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -74,7 +75,7 @@
             this.ioTHubToolStripMenuItem});
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
-            this.menuStrip2.Size = new System.Drawing.Size(722, 63);
+            this.menuStrip2.Size = new System.Drawing.Size(751, 63);
             this.menuStrip2.TabIndex = 2;
             this.menuStrip2.Text = "menuStrip2";
             this.menuStrip2.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip2_ItemClicked);
@@ -175,14 +176,14 @@
             // registerToolStripMenuItem3
             // 
             this.registerToolStripMenuItem3.Name = "registerToolStripMenuItem3";
-            this.registerToolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
+            this.registerToolStripMenuItem3.Size = new System.Drawing.Size(172, 22);
             this.registerToolStripMenuItem3.Text = "Register";
             this.registerToolStripMenuItem3.Click += new System.EventHandler(this.registerToolStripMenuItem3_Click);
             // 
             // registeredDevicesToolStripMenuItem
             // 
             this.registeredDevicesToolStripMenuItem.Name = "registeredDevicesToolStripMenuItem";
-            this.registeredDevicesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.registeredDevicesToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.registeredDevicesToolStripMenuItem.Text = "Registered Devices";
             this.registeredDevicesToolStripMenuItem.Click += new System.EventHandler(this.registeredDevicesToolStripMenuItem_Click);
             // 
@@ -196,11 +197,22 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(12, 102);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(727, 331);
+            this.textBox1.TabIndex = 4;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(722, 445);
+            this.ClientSize = new System.Drawing.Size(751, 445);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.menuStrip2);
@@ -234,6 +246,7 @@
         private System.Windows.Forms.ToolStripMenuItem deviceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem registerToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem registeredDevicesToolStripMenuItem;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

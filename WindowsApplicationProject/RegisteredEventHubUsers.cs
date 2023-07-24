@@ -35,32 +35,43 @@ namespace WindowsApplicationProject
 
         private void RegisteredEventHubUsers_Load(object sender, EventArgs e)
         {
-            string filepath1 = @"C:\Users\286968\OneDrive - Resideo\Desktop\publisherandlistener.json";
-
-            if (File.Exists(filepath1))
+            try
             {
-                string data = File.ReadAllText(filepath1);
+                string filepath1 = @"C:\Users\286968\OneDrive - Resideo\Desktop\publisherandlistener.json";
 
-                users = JsonConvert.DeserializeObject<List<User>>(data);
+                if (File.Exists(filepath1))
+                {
+                    string data = File.ReadAllText(filepath1);
+                    if (data.Length > 0)
+                    {
 
-                dataGridView1.DataSource = users;
+                        users = JsonConvert.DeserializeObject<List<User>>(data);
 
-                DataGridViewButtonColumn button = new DataGridViewButtonColumn();
+                        dataGridView1.DataSource = users;
 
-                button.HeaderText = "Action";
+                        DataGridViewButtonColumn button = new DataGridViewButtonColumn();
 
-                button.Text = "Start";
+                        button.HeaderText = "Action";
 
-                button.UseColumnTextForButtonValue = true;
-                dataGridView1.Columns.Add(button);
+                        button.Text = "Start";
 
-                dataGridView1.ReadOnly = true;
-                dataGridView1.Columns[1].Width = 135;
+                        button.UseColumnTextForButtonValue = true;
+                        dataGridView1.Columns.Add(button);
 
-                dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-                
+                        dataGridView1.ReadOnly = true;
+                        dataGridView1.Columns[1].Width = 135;
+
+                        dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+                    }
 
 
+
+                }
+            }
+            catch(Exception ex)
+            {
+                LoggerConfig._LogError("Error Occurred", ex);
+                MessageBox.Show("Error Occurred");
             }
         }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

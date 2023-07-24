@@ -34,22 +34,34 @@ namespace WindowsApplicationProject
 
         private void RegisteredStorageAccounts_Load(object sender, EventArgs e)
         {
-            string filepath = @"C:\Users\286968\OneDrive - Resideo\Desktop\storageaccount.json";
-            if (File.Exists(filepath))
+            try
             {
-                var text = File.ReadAllText(filepath);
-                storage = JsonConvert.DeserializeObject<List<Storage_Account>>(text);
-                dataGridView1.DataSource = storage;
-                dataGridView1.Columns[0].Width = 355;
-                dataGridView1.Columns[1].Width = 200;
-                DataGridViewButtonColumn buttoncolumn = new DataGridViewButtonColumn();
-                buttoncolumn.Text = "Start";
-                buttoncolumn.HeaderText = "Action";
-                buttoncolumn.UseColumnTextForButtonValue = true;
-                dataGridView1.Columns.Add(buttoncolumn);
-                dataGridView1.ReadOnly = true;
-                dataGridView1.CellContentClick += datagridviewbuttonclick;
+                string filepath = @"C:\Users\286968\OneDrive - Resideo\Desktop\storageaccount.json";
+                if (File.Exists(filepath))
+                {
+                    var text = File.ReadAllText(filepath);
+                    if (text.Length > 0)
+                    {
+                        storage = JsonConvert.DeserializeObject<List<Storage_Account>>(text);
+                        dataGridView1.DataSource = storage;
+                        dataGridView1.Columns[0].Width = 355;
+                        dataGridView1.Columns[1].Width = 200;
+                        DataGridViewButtonColumn buttoncolumn = new DataGridViewButtonColumn();
+                        buttoncolumn.Text = "Start";
+                        buttoncolumn.HeaderText = "Action";
+                        buttoncolumn.UseColumnTextForButtonValue = true;
+                        dataGridView1.Columns.Add(buttoncolumn);
+                        dataGridView1.ReadOnly = true;
+                        dataGridView1.CellContentClick += datagridviewbuttonclick;
+                    }
 
+
+                }
+            }
+            catch(Exception ex)
+            {
+                LoggerConfig._LogError("Error Occurred", ex);
+                MessageBox.Show("Error Occurred");
             }
         }
 

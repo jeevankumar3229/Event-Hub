@@ -119,16 +119,23 @@ namespace WindowsApplicationProject
                         if (File.Exists(filepath))
                         { 
                             string filedata = File.ReadAllText(filepath);
-                            user = JsonConvert.DeserializeObject<List<User>>(filedata);
-                            foreach (User user1 in user)
+                            if (filedata.Length > 0)
                             {
-                                if ((user1.EventHubNamespace == l.EventHubNamespace) && (user1.EventHubName == l.EventHubName) && (user1.ConsumerGroup==l.ConsumerGroup) && (user1.StorageAccount==l.StorageAccount) && (user1.Container==l.Container))
+                                user = JsonConvert.DeserializeObject<List<User>>(filedata);
+                                foreach (User user1 in user)
                                 {
-                                    flag = 1;
+                                    if ((String.Equals(user1.EventHubNamespace, l.EventHubNamespace, StringComparison.OrdinalIgnoreCase)) && (String.Equals(user1.EventHubName, l.EventHubName, StringComparison.OrdinalIgnoreCase)) && (String.Equals(user1.ConsumerGroup, l.ConsumerGroup, StringComparison.OrdinalIgnoreCase)) && (String.Equals(user1.StorageAccount, l.StorageAccount, StringComparison.OrdinalIgnoreCase)) && (String.Equals(user1.Container, l.Container, StringComparison.OrdinalIgnoreCase)))
+                                    {
+                                        flag = 1;
+                                    }
                                 }
-                            }
 
-                            user.Add(l);
+                                user.Add(l);
+                            }
+                            else
+                            {
+                                user = new List<User> { l };
+                            }
 
                         }
                         else

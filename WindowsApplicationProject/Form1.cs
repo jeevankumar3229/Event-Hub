@@ -23,6 +23,22 @@ namespace WindowsApplicationProject
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             FormClosing += Form1_closing;
+            DisplayContentinTextBox();
+           
+        }
+
+        private void DisplayContentinTextBox()
+        {
+            string name = @"EVENT HUB :
+Event Hubs is a modern big data streaming platform and event ingestion service that can seamlessly integrate with other Azure and Microsoft services, such as Stream Analytics, Power BI, and Event Grid, along with outside services like Apache Spark.
+In the Event Hub Section,First Register the Publisher and the Listener Separately,and then send or receive events to or from the Event Hub. 
+STORAGE ACCOUNT:
+A storage account is a container that bands a set of Azure Storage services together.
+In the Storage Account Section,First Register the Storage Account, and then get the list of tables and the containers in that Storage Account.
+IOT HUB:
+IoT hub is a Platform-as-a-Service (PaaS) managed service and can be used as a focal point that allows devices to be connected to the Internet. 
+In the IoT Hub Section,First Register the Device,and then perform the operations such as Device-to-Cloud Messaging , Reading Device-to-Cloud Messages from the Iot Hub,Cloud-to-Device Messaging, Reading Cloud-to-Device Messages from the Device side.";
+            textBox1.Text = name;
            
         }
 
@@ -130,6 +146,11 @@ namespace WindowsApplicationProject
             this.Hide();
             RegisteredForms registeredForms = new RegisteredForms(this);
             registeredForms.Show();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

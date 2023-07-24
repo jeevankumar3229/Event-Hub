@@ -35,34 +35,45 @@ namespace WindowsApplicationProject
 
         private void ReadD2CFromIoTHubForm_Load(object sender, EventArgs e)
         {
-            
-            string filepath1 = @"C:\Users\286968\OneDrive - Resideo\Desktop\iothublistener.json";
-
-            if (File.Exists(filepath1))
+            try
             {
-                string data = File.ReadAllText(filepath1);
+                string filepath1 = @"C:\Users\286968\OneDrive - Resideo\Desktop\iothublistener.json";
+                
 
-                listeners = JsonConvert.DeserializeObject<List<Listener>>(data);
+                if (File.Exists(filepath1))
+                {
+                    string data = File.ReadAllText(filepath1);
+                    if (data.Length > 0)
+                    {
 
-                dataGridView1.DataSource = listeners;
+                        listeners = JsonConvert.DeserializeObject<List<Listener>>(data);
 
-                DataGridViewButtonColumn button = new DataGridViewButtonColumn();
+                        dataGridView1.DataSource = listeners;
 
-                button.HeaderText = "Action";
+                        DataGridViewButtonColumn button = new DataGridViewButtonColumn();
 
-                button.Text = "Start";
+                        button.HeaderText = "Action";
 
-                button.UseColumnTextForButtonValue = true;
-                dataGridView1.Columns.Add(button);
+                        button.Text = "Start";
 
-                dataGridView1.ReadOnly = true;
-                dataGridView1.Columns[0].Width = 75;
-                dataGridView1.Columns[1].Width = 150;
-                dataGridView1.Columns[3].Width = 107;
-                dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
+                        button.UseColumnTextForButtonValue = true;
+                        dataGridView1.Columns.Add(button);
+
+                        dataGridView1.ReadOnly = true;
+                        dataGridView1.Columns[0].Width = 75;
+                        dataGridView1.Columns[1].Width = 150;
+                        dataGridView1.Columns[3].Width = 107;
+                        dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
+                    }
 
 
 
+                }
+            }
+            catch(Exception ex)
+            {
+                LoggerConfig._LogError("Error Occurred", ex);
+                MessageBox.Show("Error Occurred");
             }
            
             

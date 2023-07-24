@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Azure.Devices;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,57 +33,69 @@ namespace WindowsApplicationProject
 
         private void RegisteredForms_Load(object sender, EventArgs e)
         {
-            string filepath = @"C:\Users\286968\OneDrive - Resideo\Desktop\device.json";
-
-            if (File.Exists(filepath))
+            try
             {
-                string data = File.ReadAllText(filepath);
+                string filepath = @"C:\Users\286968\OneDrive - Resideo\Desktop\device.json";
 
-                devices = JsonConvert.DeserializeObject<List<Device>>(data);
+                if (File.Exists(filepath))
+                {
+                    string data = File.ReadAllText(filepath);
+                    if (data.Length > 0)
+                    {
 
-                dataGridView1.DataSource = devices;
-                DataGridViewButtonColumn button = new DataGridViewButtonColumn();
+                        devices = JsonConvert.DeserializeObject<List<Device>>(data);
 
-                button.HeaderText = "Action";
+                        dataGridView1.DataSource = devices;
+                        DataGridViewButtonColumn button = new DataGridViewButtonColumn();
 
-                button.Text = "D2C";
+                        button.HeaderText = "Action";
 
-                button.UseColumnTextForButtonValue = true;
-                dataGridView1.Columns.Add(button);
-                DataGridViewButtonColumn button1 = new DataGridViewButtonColumn();
+                        button.Text = "D2C";
 
-                button1.HeaderText = "Action";
+                        button.UseColumnTextForButtonValue = true;
+                        dataGridView1.Columns.Add(button);
+                        DataGridViewButtonColumn button1 = new DataGridViewButtonColumn();
 
-                button1.Text = "Read D2C from Iot hub";
+                        button1.HeaderText = "Action";
 
-                button1.UseColumnTextForButtonValue = true;
-                dataGridView1.Columns.Add(button1);
-                DataGridViewButtonColumn button2 = new DataGridViewButtonColumn();
+                        button1.Text = "Read D2C from Iot hub";
 
-                button2.HeaderText = "Action";
+                        button1.UseColumnTextForButtonValue = true;
+                        dataGridView1.Columns.Add(button1);
+                        DataGridViewButtonColumn button2 = new DataGridViewButtonColumn();
 
-                button2.Text = "C2D";
+                        button2.HeaderText = "Action";
 
-                button2.UseColumnTextForButtonValue = true;
-                dataGridView1.Columns.Add(button2);
-                DataGridViewButtonColumn button3 = new DataGridViewButtonColumn();
+                        button2.Text = "C2D";
 
-                button3.HeaderText = "Action";
+                        button2.UseColumnTextForButtonValue = true;
+                        dataGridView1.Columns.Add(button2);
+                        DataGridViewButtonColumn button3 = new DataGridViewButtonColumn();
 
-                button3.Text = "Read C2D from device";
+                        button3.HeaderText = "Action";
 
-                button3.UseColumnTextForButtonValue = true;
-                dataGridView1.Columns.Add(button3);
-                dataGridView1.ReadOnly = true;
-                dataGridView1.Columns[0].Width = 150;
-                dataGridView1.Columns[1].Width = 80;
-                dataGridView1.Columns[2].Width = 150;
-                dataGridView1.Columns[3].Width = 80;
-                dataGridView1.Columns[4].Width = 80;
-                dataGridView1.Columns[5].Width = 150;
-                dataGridView1.Columns[6].Width = 80;
-                dataGridView1.Columns[7].Width = 150;
-                dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+                        button3.Text = "Read C2D from device";
+
+                        button3.UseColumnTextForButtonValue = true;
+                        dataGridView1.Columns.Add(button3);
+                        dataGridView1.ReadOnly = true;
+                        dataGridView1.Columns[0].Width = 150;
+                        dataGridView1.Columns[1].Width = 80;
+                        dataGridView1.Columns[2].Width = 150;
+                        dataGridView1.Columns[3].Width = 80;
+                        dataGridView1.Columns[4].Width = 80;
+                        dataGridView1.Columns[5].Width = 150;
+                        dataGridView1.Columns[6].Width = 80;
+                        dataGridView1.Columns[7].Width = 150;
+                        dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+                    }
+
+                }
+            }
+            catch(Exception ex)
+            {
+                LoggerConfig._LogError("Error Occurred", ex);
+                MessageBox.Show("Error Occurred");
             }
         }
 

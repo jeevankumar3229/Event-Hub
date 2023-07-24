@@ -73,20 +73,27 @@ namespace WindowsApplicationProject
                     if (deviceobject != null)
                     {
                         DeviceClient deviceClient = DeviceClient.CreateFromConnectionString(device.DeviceConnectionString);
-                        if (device.DeviceConnectionString.Contains(device.DeviceID) && device.DeviceConnectionString.Contains(device.HostName) && device.IotHubConnectionString.Contains(device.HostName))
+                        if (device.DeviceConnectionString.Contains(device.DeviceID) && device.DeviceConnectionString.Contains(device.HostName) && device.IotHubConnectionString.Contains(device.HostName) && device.HostName.EndsWith(@".azure-devices.net"))
                         {
                             if (File.Exists(filepath))
                             {
                                 string filedata = File.ReadAllText(filepath);
-                                devices = JsonConvert.DeserializeObject<List<Device>>(filedata);
-                                foreach(Device device1 in devices)
+                                if (filedata.Length > 0)
                                 {
-                                    if((device1.IotHubConnectionString==device.IotHubConnectionString)&&(device1.HostName==device.HostName) && (device1.DeviceConnectionString == device.DeviceConnectionString) && (device1.DeviceID == device.DeviceID))
+                                    devices = JsonConvert.DeserializeObject<List<Device>>(filedata);
+                                    foreach (Device device1 in devices)
                                     {
-                                        flag = 1;
+                                        if ((String.Equals(device1.IotHubConnectionString,device.IotHubConnectionString,StringComparison.OrdinalIgnoreCase)) && (String.Equals(device1.HostName,device.HostName,StringComparison.OrdinalIgnoreCase)) && (String.Equals(device1.DeviceConnectionString,device.DeviceConnectionString,StringComparison.OrdinalIgnoreCase)) && (String.Equals(device1.DeviceID,device.DeviceID)))
+                                        {
+                                            flag = 1;
+                                        }
                                     }
+                                    devices.Add(device);
                                 }
-                                devices.Add(device);
+                                else
+                                {
+                                    devices = new List<Device> { device };
+                                }
 
                             }
                             else
