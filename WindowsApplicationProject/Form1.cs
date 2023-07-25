@@ -152,5 +152,10 @@ In the IoT Hub Section,First Register the Device,and then perform the operations
         {
             
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -249,8 +249,7 @@ namespace WindowsApplicationProject
         }
         async Task<int> ProcessHandler1(ProcessEventArgs eventdata)
         {
-            //var bytes = eventdata.Data.EventBody.ToArray();
-            //var bodyString = Encoding.UTF8.GetString(bytes);
+            
 
             var data = Convert.ToString(eventdata.Data.EventBody);
             var enqueuedtime = eventdata.Data.EnqueuedTime.ToLocalTime();
@@ -262,7 +261,7 @@ namespace WindowsApplicationProject
 
             if (enqueuedtime.TimeOfDay >= time.TimeOfDay)
             {
-                //eventlist.Add(jsondata);
+               
                 dataGridView1.BeginInvoke(new Action(() =>
                 {
 
@@ -294,6 +293,11 @@ namespace WindowsApplicationProject
             LoggerConfig._LogError("error occurred while processing Event Data", eventdata.Exception);
             MessageBox.Show("Error Occurred");
             return Task.CompletedTask;
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

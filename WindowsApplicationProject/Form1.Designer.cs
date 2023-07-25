@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuStrip2 = new System.Windows.Forms.MenuStrip();
             this.eVENTHUBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,18 +46,9 @@
             this.registeredDevicesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.menuStrip2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
-            this.menuStrip1.Location = new System.Drawing.Point(0, 63);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(751, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // contextMenuStrip1
             // 
@@ -98,7 +88,7 @@
             this.rEToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.registerToolStripMenuItem});
             this.rEToolStripMenuItem.Name = "rEToolStripMenuItem";
-            this.rEToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.rEToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.rEToolStripMenuItem.Text = "Publisher";
             this.rEToolStripMenuItem.Click += new System.EventHandler(this.rEToolStripMenuItem_Click);
             // 
@@ -114,7 +104,7 @@
             this.listenerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.registerToolStripMenuItem1});
             this.listenerToolStripMenuItem.Name = "listenerToolStripMenuItem";
-            this.listenerToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.listenerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.listenerToolStripMenuItem.Text = "Listener";
             // 
             // registerToolStripMenuItem1
@@ -127,7 +117,7 @@
             // registeredUsersToolStripMenuItem
             // 
             this.registeredUsersToolStripMenuItem.Name = "registeredUsersToolStripMenuItem";
-            this.registeredUsersToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.registeredUsersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.registeredUsersToolStripMenuItem.Text = "Registered Users";
             this.registeredUsersToolStripMenuItem.Click += new System.EventHandler(this.registeredUsersToolStripMenuItem_Click);
             // 
@@ -170,7 +160,7 @@
             this.registerToolStripMenuItem3,
             this.registeredDevicesToolStripMenuItem});
             this.deviceToolStripMenuItem.Name = "deviceToolStripMenuItem";
-            this.deviceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deviceToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.deviceToolStripMenuItem.Text = "Device";
             // 
             // registerToolStripMenuItem3
@@ -200,23 +190,34 @@
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(12, 102);
+            this.textBox1.Location = new System.Drawing.Point(12, 77);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(727, 331);
+            this.textBox1.Size = new System.Drawing.Size(727, 316);
             this.textBox1.TabIndex = 4;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // button2
+            // 
+            this.button2.AutoSize = true;
+            this.button2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.button2.Location = new System.Drawing.Point(646, 18);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(93, 27);
+            this.button2.TabIndex = 24;
+            this.button2.Text = "Close";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(751, 445);
+            this.ClientSize = new System.Drawing.Size(751, 405);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.menuStrip2);
-            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "HOME";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -228,8 +229,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.MenuStrip menuStrip2;
         private System.Windows.Forms.ToolStripMenuItem eVENTHUBToolStripMenuItem;
@@ -247,6 +246,7 @@
         private System.Windows.Forms.ToolStripMenuItem registerToolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem registeredDevicesToolStripMenuItem;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button2;
     }
 }
 

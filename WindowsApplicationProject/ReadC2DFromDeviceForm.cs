@@ -74,13 +74,7 @@ namespace WindowsApplicationProject
                     message = await deviceclient.ReceiveAsync();
                     if (message != null)
                     {
-                        // MessageBox.Show("No message");
-                        // button2.Text = "Start";
-                        // break;
-
-                        //}
-                        //else
-                        //{*/
+                        
                         try
                         {
                             string data = Encoding.ASCII.GetString(message.GetBytes());

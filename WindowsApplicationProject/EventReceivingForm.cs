@@ -22,7 +22,7 @@ namespace WindowsApplicationProject
     {
         private User user;
         int receivingtime;
-        //private readonly Form1 form1;
+        
         private readonly RegisteredEventHubUsers registeredEventHubUsers;
         private DataGridViewButtonCell buttons;
         TableServiceClient table;
@@ -30,7 +30,6 @@ namespace WindowsApplicationProject
 
         BlobContainerClient blob;
         EventProcessorClient client;
-        //List<events> eventlist = new List<events>();
         
         public EventReceivingForm(DataGridViewButtonCell buttons,User user,RegisteredEventHubUsers registeredEventHubUsers)
         {
@@ -40,7 +39,7 @@ namespace WindowsApplicationProject
             FormClosing += EventReceivingForm_Closing;
             this.user = user;
             this.registeredEventHubUsers = registeredEventHubUsers;
-            //this.form1 = form1;
+            
         }
 
         private void EventReceivingForm_Closing(object sender, FormClosingEventArgs e)
@@ -68,7 +67,7 @@ namespace WindowsApplicationProject
             dataGridView1.Columns[0].Width = 350;
             dataGridView1.Columns[1].Width = 350;
             dataGridView1.Columns[2].Width = 193;
-            //dataGridView1.CellMouseMove += datagridview1_CellMousClick;
+           
         }
 
         
@@ -163,7 +162,7 @@ namespace WindowsApplicationProject
             {
                 if (enqueuedtime.TimeOfDay >= time.TimeOfDay)
                 {
-                    //eventlist.Add(jsondata);
+                    
                     dataGridView1.BeginInvoke(new Action(() =>
                     {
 
@@ -209,7 +208,7 @@ namespace WindowsApplicationProject
 
             if (enqueuedtime.TimeOfDay >= time.TimeOfDay)
             {
-                //eventlist.Add(jsondata);
+                
                 dataGridView1.BeginInvoke(new Action(() =>
                 {
 
@@ -268,21 +267,7 @@ namespace WindowsApplicationProject
           
         }
 
-        /*private void datagridview1_CellMousClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex==0)
-            {
-               DataGridViewCell datacell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-
-               if (e.RowIndex >= 0 && e.RowIndex < eventlist.Count)
-               {
-
-                    string hoveringdata = eventlist[e.RowIndex].Attributes;
-                    datacell.ToolTipText = hoveringdata;
-
-               }
-            }
-        }*/
+        
 
         private async  void button1_Click(object sender, EventArgs e)
         {

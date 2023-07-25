@@ -23,20 +23,10 @@ namespace WindowsApplicationProject
 
         private readonly RegisteredForms registeredForms;
         private readonly Device device;
-        //public int count;
-        //public int totaltime;
+        
         ServiceClient serviceClient;
         Microsoft.Azure.Devices.Message message;
-        //System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-        /*Thread thread = new Thread(DisplayMessageBox);
-
-        private static void DisplayMessageBox()
-        {
-            Thread.Sleep(2000);
-            MessageBox.Show("In One Minute Only 60 Messages can be sent");
-            LoggerConfig._LogInformation("In One Minute Only 60 Messages can be sent");
-        }*/
-
+        
         public Cloud2DeviceMessagingForm(RegisteredForms registeredForms,Device device)
         {
             InitializeComponent();
@@ -45,7 +35,7 @@ namespace WindowsApplicationProject
             this.registeredForms = registeredForms;
             this.device = device;
             this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            //thread.Start();
+            
         }
 
         private void Cloud2DeviceMessagingFormClosing(object sender, FormClosingEventArgs e)
@@ -177,95 +167,7 @@ namespace WindowsApplicationProject
 
                 if (!(String.IsNullOrWhiteSpace(textBox1.Text)))
                 {
-                    /*if (!String.IsNullOrWhiteSpace(textBox2.Text) && !String.IsNullOrWhiteSpace(textBox3.Text))
-                    {
-
-                        var times = textBox2.Text;
-
-                        var time = textBox3.Text;
-                        try
-                        {
-
-                            int n1 = Convert.ToInt32(times);
-                            int n2 = Convert.ToInt32(time);
-                            count = n1;
-                            if (n1 > 0 && n2 > 0)
-                            {
-                                if (n1 <= n2 * 30)
-                                {
-
-                                    totaltime = (n2 * 30) / n1;
-                                    timer.Interval = totaltime * 1000;
-                                    timer.Tick += SendingtoDevices;
-                                    timer.Start();
-
-
-
-                                }
-                                else
-                                {
-                                    LoggerConfig._LogError("Enter a correct value for no of times field", null);
-                                    MessageBox.Show("In One Minute Only 60 Messages can be sent");
-
-                                }
-                            }
-                            else
-                            {
-                                LoggerConfig._LogError("Enter a Postive Number in No of times Field  and Time Field", null);
-                                MessageBox.Show("Enter a Positive Number for a No of times field and Time Field");
-
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            LoggerConfig._LogError("Enter a Postive Number in No of times Field and Time Field ", ex);
-                            MessageBox.Show("Enter a Postive Number in No of times Field and Time Field ");
-
-
-                        }
-
-
-                    }
-                    else if (!String.IsNullOrWhiteSpace(textBox2.Text) && String.IsNullOrWhiteSpace(textBox3.Text))
-                    {
-
-                        var times = textBox2.Text;
-
-
-                        try
-                        {
-
-                            int n = Convert.ToInt32(times);
-                            count = n;
-                            if (n > 0)
-                            {
-                                timer.Interval = 1000;
-                                timer.Tick += SendingtoDevices;
-                                timer.Start();
-
-                            }
-                            else
-                            {
-                                LoggerConfig._LogError("Enter a Postive Number in No of times Field ", null);
-                                MessageBox.Show("Enter a Positive Number for a No of times field");
-
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            LoggerConfig._LogError("Enter a Postive Number in No of times Field ", ex);
-                            MessageBox.Show("Enter a Postive Number in No of times Field ");
-
-
-                        }
-
-
-                    }
-
-
-                    else
-                    {*/
-
+                    
                         await sendingtoDevice();
                         LoggerConfig._LogInformation("Message sent to Device "+device.DeviceID);
                         MessageBox.Show("Data Successfully Sent to Device "+device.DeviceID);
@@ -273,7 +175,7 @@ namespace WindowsApplicationProject
 
                         this.Close();
 
-                    //}
+                    
 
                 }
                 else
@@ -298,25 +200,6 @@ namespace WindowsApplicationProject
             await serviceClient.SendAsync(device.DeviceID,message);
         }
 
-        /*private async  void SendingtoDevices(object sender, EventArgs e)
-        {
-            
-            if (count > 0)
-            {
-                count--;
-                await serviceClient.SendAsync(device.DeviceID, message);
-                LoggerConfig._LogInformation("Message sent to Device "+device.DeviceID);
-
-
-            }
-            else
-            {
-                timer.Stop();
-                this.Close();
-                MessageBox.Show("Message sent to Device " + device.DeviceID);
-
-
-            }
-        }*/
+       
     }
 }

@@ -224,12 +224,7 @@ namespace WindowsApplicationProject
 
         }
 
-        /*private void button2_Click(object sender, EventArgs e)
-        {
-            Form1 form = new Form1();
-            form.Show();
-            this.Close();
-        }*/
+        
 
         private void button2_Click_1(object sender, EventArgs e)
         {

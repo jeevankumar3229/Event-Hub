@@ -105,6 +105,7 @@
             this.label2.Size = new System.Drawing.Size(92, 23);
             this.label2.TabIndex = 15;
             this.label2.Text = "Attribute Value :";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // textBox2
             // 

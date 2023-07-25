@@ -23,7 +23,7 @@ namespace WindowsApplicationProject
         public DataGridViewButtonCell buttons;
         public User user;
         private readonly RegisteredEventHubUsers registeredEventHubUsers;
-        //private readonly Form1 form1;
+        
         public int count;
         public int totaltime;
        
@@ -53,7 +53,7 @@ namespace WindowsApplicationProject
             this.buttons = buttons;
             this.user = user;
             this.registeredEventHubUsers = registeredEventHubUsers;
-            //this.form1 = form1;
+            
             FormClosing += EventSendingForm_Closing;
             thread.Start();
             
