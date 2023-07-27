@@ -92,13 +92,13 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(221, 93);
+            this.label1.Location = new System.Drawing.Point(191, 93);
             this.label1.Margin = new System.Windows.Forms.Padding(20, 0, 3, 0);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(20, 2, 20, 2);
-            this.label1.Size = new System.Drawing.Size(163, 17);
+            this.label1.Size = new System.Drawing.Size(194, 17);
             this.label1.TabIndex = 18;
-            this.label1.Text = "Hub  Connection String :";
+            this.label1.Text = "Event Hub  Connection String :";
             // 
             // label4
             // 
